@@ -11,8 +11,8 @@ to the original prompt
 import sys
 import os
 import datetime
-from donor import Donor
-from donor_dict import Donor_Dict
+from donor_fp import Donor
+from donor_dict_fp import Donor_Dict
 
 
 d = Donor_Dict.from_file("dict_init.txt")
@@ -26,7 +26,7 @@ def main_menu(user_prompt=None):
     valid_prompts = {"1": create_thank_u,
                      "2": create_donor_report,
                      "3": write_letters_to_all,
-                     "4": mailroom_exit}
+                     "4": exit}
     options = list(valid_prompts.keys())
     print(divider + "We're a Pyramid Scheme & So Are You! E-Mailroom" +
           divider)
@@ -106,12 +106,12 @@ def write_txt_to_dir(f_name, content, wrt_dir=os.getcwd()):
 def conv_str(conv_str, conv_type=int):
     """
     Convert string to given conv_type.
-    If it's unable to convert, return None.
+    If it's unable to convert, return original string.
     """
     try:
         conv_yes = conv_type(conv_str)
         return conv_yes
-    except ValueError:
+    except:
         return None
 
 
@@ -210,7 +210,7 @@ def write_letters_to_all(write_dir=""):
     return
 
 
-def mailroom_exit():
+def exit():
     """
     Prompt user to save donor dict before exiting program.
     """

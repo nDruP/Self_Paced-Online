@@ -1,6 +1,6 @@
-import mailroom as mr
+from mailroom import *
 
 
 while True:
-    mr.main_menu()()
+    main_menu()()
     input("Press Enter to continue...........")

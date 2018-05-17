@@ -1,11 +1,14 @@
-from donor import Donor
+from donor_fp import Donor
 
 
-class Donor_Dict:
+class Donor_Dict():
     def __init__(self, donor, *args):
         self._dict = {donor.name.lower(): donor}
         for x in args:
             self._dict[x.name.lower()] = x
+
+    def __contains__(self, donor):
+        return (donor.lower() in self._dict.keys()) or (donor in self.donors)
 
     def __getitem__(self, key_name):
         return self._dict[key_name]
@@ -52,15 +55,24 @@ class Donor_Dict:
 
     @property
     def names(self):
-        return [d.name for d in self.donors]
+        d_names = []
+        for x in self.donors:
+            d_names.append(x.name)
+        return d_names
 
     @property
     def avgs(self):
-        return [d.avg_gift for d in self.donors]
+        averages = []
+        for x in self.donors:
+            averages.append(x.avg_gift)
+        return averages
 
     @property
     def sums(self):
-        return [d.sum_gift for d in self.donors]
+        sum_list = []
+        for x in self.donors:
+            sum_list.append(x.sum_gift)
+        return sum_list
 
     @property
     def keys(self):
@@ -68,7 +80,7 @@ class Donor_Dict:
 
     @property
     def donors(self):
-        return [d for d in self._dict.values()]
+        return [d for _, d in self._dict.items()]
 
     @property
     def col_len(self):
@@ -93,7 +105,7 @@ class Donor_Dict:
 
     def add_donor(self, d_name, contribution):
         key_name = d_name.lower()
-        if key_name in self._dict:
+        if key_name in self:
             self._dict[key_name].add_gift(contribution)
         else:
             self._dict[key_name] = Donor(d_name, contribution)
